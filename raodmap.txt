@@ -1,0 +1,137 @@
+2. Jalons clés
+
+Phase
+
+Jalon
+
+Date prévue
+
+Conception
+
+Validation MCD + specs tech
+
+10 mai 2025
+
+Dev backend
+
+Services auctions/users opérationnels
+
+10 juin 2025
+
+Frontend web
+
+UI catalogue + enchères live
+
+25 juin 2025
+
+Mobile app
+
+Flutter version stable
+
+5 juillet 2025
+
+Préprod
+
+Fin des tests utilisateurs (UAT)
+
+15 juillet 2025
+
+Prod
+
+Lancement public MVP
+
+1er août 2025
+
+3. Gestion des risques
+
+3.1 Tableau de suivi
+
+Risque
+
+Impact
+
+Probabilité
+
+Mitigation proposée
+
+Retard sur le mobile
+
+Élevé
+
+Moyen
+
+Planning tampon, équipe dédiée Flutter
+
+Scabilité des enchères live
+
+Élevé
+
+Élevée
+
+Redis Streams, tests k6, autoscaling GKE
+
+Failles de sécurité (API)
+
+Élevé
+
+Moyen
+
+Pentest, OpenAPI lint, test auth JWT
+
+Adoption utilisateurs lente
+
+Moyen
+
+Moyen
+
+Campagne ciblée, onboarding simplifié
+
+4. Budget prévisionnel
+
+4.1 Dépenses projet (6 mois)
+
+Catégorie
+
+Montant estimé
+
+Détail
+
+Développement
+
+180 000 €
+
+8 ETP (freelance / portage)
+
+Hébergement GCP
+
+6 000 €
+
+GKE, CloudSQL, Storage, PubSub
+
+Licences SaaS
+
+3 000 €
+
+Auth0, Stripe, monitoring, alerting
+
+Design / UI/UX
+
+4 000 €
+
+Wireframes, prototypage, tests utilisateurs
+
+Marketing pré-lancement
+
+7 000 €
+
+Teasing, social media, influenceurs niche
+
+5. Outils de suivi & collaboration
+
+Suivi de projet : Jira (Scrum), Kanban → Équipe technique
+
+Doc & spécifications : Notion / Confluence → Specs produit + roadmap
+
+Communication interne : Slack + Google Meet
+
+Partage & validation : Figma (designs), Loom (démos async)

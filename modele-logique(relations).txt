@@ -1,0 +1,11 @@
+Modèle Logique (relations)
+
+1:N → User ↔ Falcons / Bids / Orders
+
+1:N → Falcon ↔ Auctions / HealthChecks
+
+1:N → Auction ↔ Bids
+
+1:N → Order ↔ Payments / OrderLines
+
+M:N → OrderLines = Order × Product (pivot)

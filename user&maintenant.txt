@@ -1,0 +1,135 @@
+Dossier – Documentation Utilisateur & Maintenance
+
+1. Guide Utilisateur (App Mobile & Web)
+
+1.1 Prise en main
+
+Inscription & vérification :
+
+Création de compte via email ou OAuth Google
+
+Téléversement d’une pièce d’identité + image du faucon (vérification Supabase)
+
+Navigation :
+
+Accueil : enchères en cours, catalogue, services
+
+Onglet « Mes faucons » : gestion des annonces & historique
+
+Boutique : commande d’accessoires, paiement intégré
+
+1.2 Utiliser les enchères live
+
+Se connecter et choisir une enchère active
+
+Suivre la diffusion vidéo en direct (caméra multiple)
+
+Placer des mises en temps réel avec boutons dynamiques (« +500 », « +1000 »...)
+
+Suivre les interactions via le chat intégré
+
+Notification automatique si enchère remportée
+
+1.3 Acheter un produit
+
+Accéder à la boutique → choisir une catégorie
+
+Ajouter au panier → consulter le stock en temps réel
+
+Choisir mode de livraison et méthode de paiement (Carte, Apple Pay)
+
+Suivre les statuts via onglet « Mes commandes »
+
+2. FAQ & Support
+
+2.1 Questions fréquentes
+
+Quels sont les frais d’enchère ?
+
+3 % sur chaque vente gagnée
+
+Comment sont vérifiés les vendeurs ?
+
+Identification obligatoire + preuve de propriété faucon
+
+Puis-je supprimer mon compte ?
+
+Oui, depuis les paramètres → « Supprimer mon compte »
+
+2.2 Tutoriels intégrés
+
+Vidéos courtes (2 min) dans l’app :
+
+Participer à une enchère live
+
+Ajouter un produit à vendre
+
+Réserver une visite vétérinaire
+
+3. Maintenance & Exploitation
+
+3.1 Procédures techniques
+
+Procédure
+
+Fréquence
+
+Responsable
+
+Sauvegarde base de données
+
+quotidienne
+
+GCP / Cloud SQL
+
+Rotation des secrets
+
+mensuelle
+
+DevSecOps
+
+Mise à jour services
+
+bi-hebdo
+
+DevOps (CI/CD)
+
+Surveillance latence / SLA
+
+continue
+
+SRE / Monitoring
+
+3.2 Gestion des incidents
+
+Canal #incidents sur Slack
+
+Documentation PIR (Post-Incident Review)
+
+Notification utilisateurs via Firebase / Mail
+
+Engagement SLA API : 99.8 %, réponse support < 24h
+
+3.3 Évolutions prévues
+
+Version
+
+Fonctionnalité prévue
+
+Estimation
+
+v1.1
+
+Géolocalisation des annonces
+
+Sept. 2025
+
+v1.2
+
+Enchères multi-faucons groupés
+
+Oct. 2025
+
+v2.0
+
+Estimation IA du prix

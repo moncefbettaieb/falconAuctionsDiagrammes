@@ -1,0 +1,7 @@
+POST /auctions/:id/bid
+Authorization: Bearer <jwt>
+Content-Type: application/json
+
+{
+  "amount": 3000
+}
