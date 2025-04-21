@@ -1,0 +1,100 @@
+Objectif
+Choisir un moyen de paiement adapté au marché qatari / GCC capable de :
+
+geler (autoriser) une somme pendant la durée d’une enchère ;
+
+capturer la somme uniquement si l’utilisateur remporte l’enchère ;
+
+libérer (void / release) automatiquement les fonds dans le cas contraire ;
+
+prendre en charge les cartes locales (mada KSA, KNET Koweït, Benefit Bahreïn, NAPS Qatar…), Apple Pay / Google Pay et, idéalement, STC Pay ou autres e‑wallets régionaux.
+
+1. Solutions PSP « Gulf‑ready » qui supportent authorize → capture/void
+
+PSP	Pays d’agrément	Rails locaux	« Auth‑only » + capture/void	Wallets / APM	Remarques
+Checkout.com	DIFC (UAE) + licence QFC	mada, KNET, NAPS	Oui : authorize puis capture (≤ 7 jours) ou void 
+Checkout.com
+Apple Pay, Google Pay, STC Pay (via Tap on Top)	API moderne, webhooks, Marketplace/Payouts, conformité PCI DSS
+Tap Payments	KSA / Kuwait / Bahrain	mada, KNET, Benefit	Oui : autorisation différée ; expose un hold paramétrable	Apple Pay, STC Pay, MADA Pay	Fort ancrage GCC, bon support arabe/EN 
+Tap Payments
+PayTabs	QCB (Qatar) & licences GCC	NAPS, mada, OmanNet, KNET	Oui : “hold days” configurable (fonds bloqués puis transférés ou relâchés) 
+PayTabs Support Portal
+Apple Pay, Samsung Pay	Dashboard bilingue, Split‑payouts disponibles 
+PayTabs Technical Portal
+Stripe n’est pas encore opérationnel au Qatar ; HyperPay ou Moyasar couvrent surtout KSA/UAE mais offrent des fonctions similaires.
+
+2. Recommandation
+Checkout.com comme passerelle principale
+
+Couverture multi‑cartes GCC + schémas internationaux.
+
+API authorize → capture / void mature ; délai standard : 7 j, extensible contractuellement jusqu’à 30 j (contrat Marketplaces & Escrow).
+
+“Channel Marketplace” pour gérer escrow & split‑payouts (paiement au vendeur − commission plateforme).
+
+Payouts en AED, QAR, SAR ; possibilité d’automatiser via Mastercard Move partnership 
+Mastercard
+.
+
+Tap Payments en « fallback » pour accepter STC Pay et disposer d’un MID local KSA/Bahrain.
+
+Facile de router les transactions via un Payment‑Orchestrator (Checkout.com possède son propre router ou vous utilisez Spreedly/Primer).
+
+Logique métier recommandée
+
+mermaid
+Copier
+Modifier
+sequenceDiagram
+    participant Client
+    participant App
+    participant PSP as Checkout.com
+    participant DB
+
+    Client->>App: Place max bid (10 000 QAR)
+    App->>PSP: Auth-only 10 000 QAR
+    PSP-->>App: auth_id + status=Authorized
+    App->>DB: store(auth_id, bid_id, expiry)
+
+    Note over App: Auction ends…
+    App->>DB: determine winner
+
+    alt Winner
+        App->>PSP: Capture auth_id
+        PSP-->>App: status=Captured
+    else Loser
+        App->>PSP: Void auth_id
+        PSP-->>App: status=Voided
+    end
+Options d’optimisation :
+
+Pré‑autoriser un dépôt (ex. 10 % de la mise maximum) pour réduire la friction.
+
+Ou créer un e‑wallet interne : l’utilisateur crédite 1 000 QAR → solde gelé via ledger interne ; vous ne touchez les fonds qu’à la capture finale (réduit le nombre d’autorisations multiples).
+
+3. Points de vigilance réglementaires
+
+Élément	Exigence GCC / Qatar	Action
+QCB licence	Toute plateforme encaissant des paiements doit passer par un PSP agréé Qatar Central Bank	Utiliser Checkout.com ou PayTabs Qatar comme « merchant of record ».
+KYC / AML	Vendeurs d’oiseaux vivants → vérification d’identité et provenance	Fonction KYC déjà prévue (Supabase + upload ID).
+Escrow / marketplace	Réglementé : fonds bloqués doivent rester sur un compte de cantonnement	Checkout.com Markets ou PayTabs Split‑Payouts gèrent la ségrégation.
+Sharia compliance	Certains clients exigent des passerelles certifiées	Tap Payments et PayTabs communiquent sur leur conformité.
+4. Plan d’intégration
+Onboarding Checkout.com – obtenir MID Qatar + UAE.
+
+Activer “Two‑step payments” (capture=true|false).
+
+Créer des Webhooks :
+
+payment_authorized → enregistrer auth_id + expires_on.
+
+payment_captured / payment_voided → mettre à jour l’état de l’enchère.
+
+Cron / Cloud Task : annuler automatiquement toute autorisation non capturée avant expiration (7 j).
+
+Fallback routing vers Tap Payments via un middleware (Spreedly, Checkout Router ou maison).
+
+Payouts vendeurs : déclenchement quotidien via API « Payments → Disbursements ».
+
+En résumé
+Checkout.com est aujourd’hui la solution la plus complète pour un modèle d’enchères « authorize‑hold & capture/void » au Qatar et dans tout le Golfe. Associez‑la à Tap Payments pour couvrir STC Pay et disposer d’un second acquiring route. Implémentez un flux two‑step avec webhooks, et prévoyez un mécanisme d’annulation automatique des autorisations pour respecter les délais bancaires.
